@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stock Market Data - EmpowerFund</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #4a90e2;
+      color: white;
+      padding: 20px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    nav {
+      background-color: #333;
+      padding: 10px;
+      width: 100%;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: 600;
+    }
+
+    nav a:hover {
+      color: #4a90e2;
+    }
+
+    .section {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      max-width: 800px;
+      width: 100%;
+      margin: 20px;
+    }
+
+    input {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #4a90e2;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background-color: #357abd;
+    }
+
+    .error {
+      color: red;
+      display: none;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    .loading {
+      display: none;
+      font-style: italic;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    table {
+      width: 100%;
+      margin: 20px 0;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th {
+      background-color: #4a90e2;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      padding: 10px;
+      width: 100%;
+      text-align: center;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Stock Market Data</h1>
+    <p>Fetch real-time stock market data.</p>
+  </header>
+
+  <nav>
+    <a href="/api/users/dashboard">Home</a>
+    <a href="/api/users/sip">SIP Calculator</a>
+    <a href="/api/users/emi">EMI Calculator</a>
+    <a href="/api/users/investments">Investment Options</a>
+    <a href="/api/users/stocks">Stock Market Data</a>
+  </nav>
+
+  <div class="section">
+    <form id="stockForm">
+      <label for="symbol">Stock Symbol:</label>
+      <input type="text" id="symbol" name="symbol" placeholder="e.g., AAPL" required>
+      <button type="submit">Fetch Data</button>
+      <p class="loading">Fetching data...</p>
+      <p class="error"></p>
+    </form>
+    <div id="stockData"></div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 EmpowerFund. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.getElementById('stockForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const symbol = document.getElementById('symbol').value.trim().toUpperCase();
+      const errorElement = document.querySelector('.error');
+      const loadingElement = document.querySelector('.loading');
+      const resultElement = document.getElementById('stockData');
+
+      if (!symbol) {
+        errorElement.textContent = "Please enter a stock symbol.";
+        errorElement.style.display = "block";
+        return;
+      }
+
+      errorElement.style.display = "none";
+      loadingElement.style.display = "block";
+      resultElement.innerHTML = "";
+
+      try {
+        // Simulate API call with a delay
+        setTimeout(() => {
+          const mockData = {
+            'Meta Data': {
+              '2. Symbol': symbol,
+              '3. Last Refreshed': '2023-10-05',
+            },
+            'Time Series (Daily)': {
+              '2023-10-05': {
+                '1. open': '170.50',
+                '2. high': '172.00',
+                '3. low': '169.80',
+                '4. close': '171.20',
+                '5. volume': '1200000',
+              },
+              '2023-10-04': {
+                '1. open': '169.00',
+                '2. high': '170.50',
+                '3. low': '168.50',
+                '4. close': '170.00',
+                '5. volume': '1100000',
+              },
+              '2023-10-03': {
+                '1. open': '168.00',
+                '2. high': '169.50',
+                '3. low': '167.50',
+                '4. close': '168.80',
+                '5. volume': '1000000',
+              },
+            },
+          };
+
+          loadingElement.style.display = "none";
+
+          if (!mockData || !mockData['Meta Data'] || !mockData['Time Series (Daily)']) {
+            errorElement.textContent = "No data available for this symbol.";
+            errorElement.style.display = "block";
+            return;
+          }
+
+          resultElement.innerHTML = formatStockData(mockData);
+        }, 1000); // Simulate 1 second delay for API call
+      } catch (error) {
+        loadingElement.style.display = "none";
+        errorElement.textContent = "Server error. Please try again later.";
+        errorElement.style.display = "block";
+      }
+    });
+
+    function formatStockData(data) {
+      const metaData = data['Meta Data'];
+      const timeSeries = data['Time Series (Daily)'];
+      let html = `<h3>${metaData['2. Symbol']} - ${metaData['3. Last Refreshed']}</h3>`;
+
+      html += `<table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Open</th>
+            <th>High</th>
+            <th>Low</th>
+            <th>Close</th>
+            <th>Volume</th>
+          </tr>
+        </thead>
+        <tbody>`;
+
+      let count = 0;
+      for (const date in timeSeries) {
+        if (count >= 5) break; // Show only the last 5 days of data
+        const dailyData = timeSeries[date];
+        html += `<tr>
+          <td>${date}</td>
+          <td>${dailyData['1. open']}</td>
+          <td>${dailyData['2. high']}</td>
+          <td>${dailyData['3. low']}</td>
+          <td>${dailyData['4. close']}</td>
+          <td>${dailyData['5. volume']}</td>
+        </tr>`;
+        count++;
+      }
+
+      html += `</tbody></table>`;
+      return html;
+    }
+  </script>
+</body>
+</html>

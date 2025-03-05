@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investment Options - EmpowerFund</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #4a90e2;
+      color: white;
+      padding: 20px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    nav {
+      background-color: #333;
+      padding: 10px;
+      width: 100%;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: 600;
+    }
+
+    nav a:hover {
+      color: #4a90e2;
+    }
+
+    .section {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      max-width: 800px;
+      width: 100%;
+      margin: 20px;
+    }
+
+    .investment-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .investment-item {
+      background: #fff;
+      margin: 20px 0;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .investment-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .investment-item strong {
+      font-size: 20px;
+      color: #4a90e2;
+    }
+
+    .investment-item em {
+      display: block;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    footer {
+      background-color: #333;
+      color: white;
+      padding: 10px;
+      width: 100%;
+      text-align: center;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Investment Options</h1>
+    <p>Explore curated investment options tailored for you.</p>
+  </header>
+
+  <nav>
+    <a href="/api/users/dashboard">Home</a>
+    <a href="/api/users/sip">SIP Calculator</a>
+    <a href="/api/users/emi">EMI Calculator</a>
+    <a href="/api/users/investments">Investment Options</a>
+    <a href="/api/users/stocks">Stock Market Data</a>
+  </nav>
+
+  <div class="section">
+    <ul class="investment-list" id="investmentList">
+      <!-- Investment items will be dynamically inserted here -->
+    </ul>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 EmpowerFund. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Sample investment data (can be replaced with data from an API)
+    const investments = [
+      {
+        name: "Fixed Deposits",
+        description: "A low-risk investment option with guaranteed returns over a fixed period.",
+        risk: "Low",
+        returns: "5-7% annually",
+      },
+      {
+        name: "Mutual Funds",
+        description: "Invest in a diversified portfolio managed by professionals.",
+        risk: "Medium",
+        returns: "8-12% annually",
+      },
+      {
+        name: "Stocks",
+        description: "High-risk, high-reward investment in the stock market.",
+        risk: "High",
+        returns: "10-20% annually",
+      },
+      {
+        name: "Real Estate",
+        description: "Invest in property for long-term capital appreciation.",
+        risk: "Medium",
+        returns: "6-10% annually",
+      },
+      {
+        name: "Gold",
+        description: "A safe-haven asset that provides stability during market volatility.",
+        risk: "Low",
+        returns: "4-6% annually",
+      },
+    ];
+
+    // Function to render investment items
+    function renderInvestments() {
+      const investmentList = document.getElementById("investmentList");
+      investmentList.innerHTML = investments
+        .map(
+          (investment) => `
+            <li class="investment-item">
+              <strong>${investment.name}</strong><br>
+              ${investment.description}<br>
+              <em>Risk: ${investment.risk}, Returns: ${investment.returns}</em>
+            </li>
+          `
+        )
+        .join("");
+    }
+
+    // Render investments on page load
+    renderInvestments();
+  </script>
+</body>
+</html>
