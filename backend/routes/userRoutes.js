@@ -1,37 +1,55 @@
 const express = require('express');
 const router = express.Router();
-const axios = require('axios');
+const passport = require('passport');
+const User = require('../models/User');
 
-// ✅ Dashboard Page (No authentication required)
-router.get('/dashboard', (req, res) => {
-    res.render('dashboard', { user: { name: 'Guest' } });
+// ✅ Login route (POST)
+router.post('/login', passport.authenticate('local', {
+    successRedirect: '/dashboard',
+    failureRedirect: '/',
+    failureFlash: true,
+}));
+
+// ✅ Register route (POST)
+router.post('/register', async (req, res) => {
+    const { name, email, password } = req.body;
+
+    try {
+        // Check if user exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            req.flash('error', 'User already exists.');
+            return res.redirect('/');
+        }
+
+        // Hash password
+        const bcrypt = require('bcryptjs');
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+
+        // Save new user
+        const user = new User({ name, email, password: hashedPassword });
+        await user.save();
+
+        req.flash('success', 'Registration successful! Please log in.');
+        res.redirect('/');
+    } catch (err) {
+        console.error("⚠️ Error registering user:", err);
+        req.flash('error', 'Registration failed.');
+        res.redirect('/');
+    }
 });
 
-// ✅ SIP Calculator Page
-router.get('/sip', (req, res) => {
-    res.render('sip', { user: req.user || { name: 'Guest' } });
-});
-
-
-// ✅ EMI Calculator Page
-router.get('/emi', (_req, res) => {
-    res.render('emi', { user: { name: 'Guest' } });
-});
-
-// ✅ Investment Options Page
-router.get('/investments', (req, res) => {
-    const investments = [
-        { name: 'Public Provident Fund (PPF)', description: 'A long-term savings scheme with tax benefits.', risk: 'Low', returns: '7.1% (approx)' },
-        { name: 'Sukanya Samriddhi Yojana', description: 'A savings scheme for the girl child with high interest rates.', risk: 'Low', returns: '8.2% (approx)' },
-        { name: 'Equity Mutual Funds', description: 'Invest in stocks for higher returns over the long term.', risk: 'High', returns: '12-15% (approx)' },
-        { name: 'Fixed Deposits (FD)', description: 'Safe investment with guaranteed returns.', risk: 'Low', returns: '6-7% (approx)' }
-    ];
-    res.render('investments', { user: { name: 'Guest' }, investments });
-});
-
-// ✅ Stock Market Data Page
-router.get('/stocks', (req, res) => {
-    res.render('stocks', { user: { name: 'Guest' } });
+// ✅ Logout route
+router.get('/logout', (req, res) => {
+    req.logout((err) => {
+        if (err) {
+            req.flash('error', 'Logout failed. Please try again.');
+            return res.redirect('/dashboard');
+        }
+        req.flash('success', 'Logged out successfully.');
+        res.redirect('/');
+    });
 });
 
 module.exports = router;

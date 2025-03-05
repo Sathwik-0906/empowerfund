@@ -3,136 +3,210 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EmpowerFund - Dashboard</title>
+  <title>Dashboard - EmpowerFund</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
+    /* Reset and global styles */
+    * {
       margin: 0;
       padding: 0;
-      background-color: #f9f9f9;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #fff;
       color: #333;
+      min-height: 100vh;
+      padding: 20px;
     }
+
+    /* Header styling */
     header {
-      background-color: #007bff;
-      color: #fff;
-      padding: 20px;
       text-align: center;
+      margin-bottom: 40px;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 1s ease-in-out;
     }
-    nav {
-      background-color: #333;
-      padding: 10px;
-      text-align: center;
-    }
-    nav a {
-      color: #fff;
-      margin: 0 15px;
-      font-size: 1.1rem;
-    }
-    nav a:hover {
-      color: #007bff;
-    }
-    .features {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 20px;
-    }
-    .feature-card {
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      margin: 15px;
-      padding: 20px;
-      width: 300px;
-      text-align: center;
-      transition: transform 0.3s ease;
-    }
-    .feature-card:hover {
-      transform: translateY(-10px);
-    }
-    .feature-card h2 {
-      margin: 0 0 10px;
-      font-size: 1.5rem;
-      color: #007bff;
-    }
-    .feature-card p {
-      margin: 0;
-      font-size: 1rem;
-      color: #666;
-    }
-    .feature-card .icon {
+
+    header h1 {
       font-size: 2.5rem;
-      color: #007bff;
+      font-weight: 600;
       margin-bottom: 10px;
-    }
-    footer {
-      background-color: #333;
       color: #fff;
-      text-align: center;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: #e0e0e0;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    /* Navigation styling */
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 40px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      padding: 12px 24px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      font-weight: 600;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    nav a:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: translateY(-5px);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    nav a:active {
+      transform: translateY(0);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Section styling */
+    .section {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      padding: 30px;
+      margin: 20px auto;
+      max-width: 800px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .section:hover {
+      transform: scale(1.02);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .section p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      color: #555;
+    }
+
+    .section ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .section ul li {
+      background: rgba(255, 255, 255, 0.9);
+      margin: 10px 0;
       padding: 15px;
-      margin-top: 20px;
+      border-radius: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
     }
-    footer a {
-      color: #007bff;
-      margin: 0 10px;
+
+    .section ul li:hover {
+      background: rgba(255, 255, 255, 1);
+      transform: translateX(10px);
     }
-    footer a:hover {
-      color: #fff;
+
+    .section ul li strong {
+      color: #6a11cb;
+    }
+
+    /* Flash messages styling */
+    .alert {
+      padding: 15px;
+      border-radius: 10px;
+      margin: 20px auto;
+      max-width: 800px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .alert-error {
+      background: rgba(255, 0, 0, 0.1);
+      color: #ff6b6b;
+    }
+
+    .alert-success {
+      background: rgba(0, 255, 0, 0.1);
+      color: #66ff66;
+    }
+
+    /* Footer styling */
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      border: 1px solid rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    footer p {
+      color: #555;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
   <header>
     <h1>Welcome to EmpowerFund, <%= user.name %>!</h1>
-    <p>Your one-stop solution for financial growth.</p>
+    <p>Your one-stop solution for financial growth and wealth management.</p>
   </header>
 
   <nav>
-    <a href="/api/users/dashboard">Home</a>
-    <a href="/api/users/sip">SIP Calculator</a>
-    <a href="/api/users/emi">EMI Calculator</a>
-    <a href="/api/users/investments">Investment Options</a>
-    <a href="/api/users/stocks">Stock Market Data</a>
+    <a href="/dashboard">Home</a>
+    <a href="/sip">SIP Calculator</a>
+    <a href="/emi">EMI Calculator</a>
+    <a href="/investments">Investment Options</a>
+    <a href="/stocks">Stock Market Data</a>
+    <a href="/api/users/logout">Logout</a>
   </nav>
 
-  <div class="features">
-    <div class="feature-card">
-      <div class="icon">💰</div>
-      <h2>SIP Calculator</h2>
-      <p>Calculate the future value of your systematic investments.</p>
-      <a href="/api/users/sip">Go to SIP Calculator</a>
+  <!-- Display flash messages (if any) -->
+  <% if (messages.error) { %>
+    <div class="alert alert-error">
+      <%= messages.error %>
     </div>
+  <% } %>
+  <% if (messages.success) { %>
+    <div class="alert alert-success">
+      <%= messages.success %>
+    </div>
+  <% } %>
 
-    <div class="feature-card">
-      <div class="icon">🏦</div>
-      <h2>EMI Calculator</h2>
-      <p>Calculate your monthly loan installments.</p>
-      <a href="/api/users/emi">Go to EMI Calculator</a>
-    </div>
-
-    <div class="feature-card">
-      <div class="icon">📈</div>
-      <h2>Investment Options</h2>
-      <p>Explore curated investment options tailored for you.</p>
-      <a href="/api/users/investments">Go to Investments</a>
-    </div>
-
-    <div class="feature-card">
-      <div class="icon">📊</div>
-      <h2>Stock Market Data</h2>
-      <p>Fetch real-time stock market data.</p>
-      <a href="/api/users/stocks">Go to Stocks</a>
-    </div>
+  <div class="section">
+    <p>Explore the tools and resources available to you. Whether you're planning for retirement, saving for a big purchase, or investing in the stock market, EmpowerFund provides you with the tools and insights to make informed financial decisions.</p>
+    <p>Our platform offers:</p>
+    <ul>
+      <li><strong>SIP Calculator:</strong> Plan your Systematic Investment Plans with precision.</li>
+      <li><strong>EMI Calculator:</strong> Calculate your Equated Monthly Installments for loans.</li>
+      <li><strong>Investment Options:</strong> Discover a variety of investment opportunities tailored to your goals.</li>
+      <li><strong>Stock Market Data:</strong> Stay updated with real-time stock market trends and analysis.</li>
+    </ul>
   </div>
 
   <footer>
-    <p>&copy; 2023 EmpowerFund. All rights reserved.</p>
-    <p>
-      <a href="#">Support</a> |
-      <a href="#">Privacy Policy</a> |
-      <a href="#">Contact Us</a>
-    </p>
+    <p>&copy; 2025 EmpowerFund. All rights reserved.</p>
   </footer>
 </body>
 </html>

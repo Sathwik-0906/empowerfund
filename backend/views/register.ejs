@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - EmpowerFund</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Register</h1>
+    </header>
+
+    <!-- Flash Messages -->
+    <% if (messages && messages.success) { %>
+        <div class="alert alert-success"><%= messages.success %></div>
+    <% } %>
+    <% if (messages && messages.error) { %>
+        <div class="alert alert-error"><%= messages.error %></div>
+    <% } %>
+
+    <form action="/register" method="POST">
+        <label for="name">Name:</label>
+        <input type="text" name="name" required>
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" required>
+
+        <label for="password">Password:</label>
+        <input type="password" name="password" required>
+
+        <button type="submit">Register</button>
+    </form>
+
+    <p>Already registered? <a href="/">Login here</a></p>
+
+    <footer>
+        <p>&copy; 2025 EmpowerFund. All rights reserved.</p>
+    </footer>
+</body>
+</html>

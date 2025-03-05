@@ -5,55 +5,80 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Investment Options - EmpowerFund</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #f4f4f9;
-      color: #333;
+    /* Basic Reset */
+    * {
       margin: 0;
       padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      line-height: 1.6;
+      background-color: #f4f4f9;
+      color: #333;
     }
 
     header {
-      background-color: #4a90e2;
-      color: white;
-      padding: 20px;
-      width: 100%;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff;
+      padding: 2rem;
       text-align: center;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      opacity: 0.9;
     }
 
     nav {
-      background-color: #333;
-      padding: 10px;
-      width: 100%;
-      text-align: center;
+      display: flex;
+      justify-content: center;
+      background: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
     }
 
     nav a {
-      color: white;
+      color: #2575fc;
       text-decoration: none;
-      margin: 0 15px;
+      margin: 0 1rem;
       font-weight: 600;
+      transition: color 0.3s ease;
     }
 
     nav a:hover {
-      color: #4a90e2;
+      color: #6a11cb;
+    }
+
+    .alert {
+      padding: 1rem;
+      margin: 1rem auto;
+      max-width: 800px;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    .alert-error {
+      background: #ffebee;
+      color: #c62828;
+      border: 1px solid #c62828;
     }
 
     .section {
-      background-color: white;
-      padding: 30px;
+      padding: 2rem;
+      background: #fff;
+      margin: 2rem auto;
+      max-width: 800px;
       border-radius: 10px;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      max-width: 800px;
-      width: 100%;
-      margin: 20px;
     }
 
     .investment-list {
@@ -62,38 +87,69 @@
     }
 
     .investment-item {
-      background: #fff;
-      margin: 20px 0;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      background: #f9f9f9;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border-radius: 8px;
+      border: 1px solid #eee;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .investment-item:hover {
       transform: translateY(-5px);
-      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     }
 
     .investment-item strong {
-      font-size: 20px;
-      color: #4a90e2;
+      font-size: 1.25rem;
+      color: #2575fc;
     }
 
     .investment-item em {
       display: block;
-      margin-top: 10px;
-      font-size: 14px;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
       color: #666;
     }
 
     footer {
-      background-color: #333;
-      color: white;
-      padding: 10px;
-      width: 100%;
       text-align: center;
-      margin-top: auto;
+      padding: 1rem;
+      background: #333;
+      color: #fff;
+      margin-top: 2rem;
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      nav a {
+        margin: 0.5rem 0;
+      }
+
+      header h1 {
+        font-size: 2rem;
+      }
+
+      header p {
+        font-size: 1rem;
+      }
+
+      .section {
+        padding: 1rem;
+      }
+
+      .investment-item {
+        padding: 1rem;
+      }
     }
   </style>
 </head>
@@ -104,12 +160,20 @@
   </header>
 
   <nav>
-    <a href="/api/users/dashboard">Home</a>
-    <a href="/api/users/sip">SIP Calculator</a>
-    <a href="/api/users/emi">EMI Calculator</a>
-    <a href="/api/users/investments">Investment Options</a>
-    <a href="/api/users/stocks">Stock Market Data</a>
+    <a href="/dashboard">Home</a>
+    <a href="/sip">SIP Calculator</a>
+    <a href="/emi">EMI Calculator</a>
+    <a href="/investments">Investment Options</a>
+    <a href="/stocks">Stock Market Data</a>
+    <a href="/api/users/logout">Logout</a>
   </nav>
+
+  <!-- Display flash messages (if any) -->
+  <% if (messages.error) { %>
+    <div class="alert alert-error">
+      <%= messages.error %>
+    </div>
+  <% } %>
 
   <div class="section">
     <ul class="investment-list" id="investmentList">
