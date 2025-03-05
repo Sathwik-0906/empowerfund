@@ -6,7 +6,7 @@ const cors = require('cors');
 const path = require('path');
 const session = require('express-session');
 const flash = require('connect-flash');
-const connectDB = require('./config/db'); // Import MongoDB connection
+const connectDB = require('./backend/config/db'); // Updated import path for db.js
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -38,27 +38,12 @@ app.use(session({
 // Flash messages
 app.use(flash());
 
-// Global Flash Messages
-app.use((req, res, next) => {
-    res.locals.success_msg = req.flash('success');
-    res.locals.error_msg = req.flash('error');
-    next();
-});
-
-// Set up EJS as the view engine
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-
 // Routes
-const userRoutes = require('./routes/userRoutes');
-app.use('/api/users', userRoutes);
-
-// **Remove authentication: Directly show dashboard**
 app.get('/', (req, res) => {
-    res.render('dashboard', { user: { name: 'Guest' } }); // Always show dashboard
+    res.send('Welcome to EmpowerFund!');
 });
 
-// Start server
+// Start the server
 app.listen(PORT, () => {
-    console.log(`🚀 Server is running on http://localhost:${PORT}`);
+    console.log(`🚀 Server running on port ${PORT}`);
 });
