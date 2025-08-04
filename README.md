@@ -72,8 +72,8 @@ For demonstration purposes, use the following credentials:
 | **SIP Calculator** | **EMI Calculator** |
 | ![SIP Calculator Screenshot](sip.png.png) | ![EMI Calculator Screenshot](emi.png.png) |
 | **Investment Options** | **Stock Market (Watchlist)** |
-| ![Investment Options Screenshot](investment.png.png) | ![Stock Market Screenshot](stock1.png.png) |
+| ![Investment Options Screenshot](investment.png.png) | ![Stock Market Screenshot](stock2.png.png) |
 | **Stock Market (Details)** |
-| ![Stock Market Details Screenshot](stock2.png.png) |
+| ![Stock Market Details Screenshot](stock1.png.png) |
 
 ---
