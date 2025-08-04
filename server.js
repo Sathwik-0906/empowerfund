@@ -1,4 +1,16 @@
-require('dotenv').config(); // Load environment variables
+// --- THIS IS THE CRITICAL FIX ---
+// Load and immediately check the environment variables at the very top.
+const dotenv = require('dotenv');
+dotenv.config();
+
+console.log("--- Server Starting ---");
+if (process.env.FMP_API_KEY) {
+    console.log("✅ FMP API Key loaded successfully.");
+} else {
+    console.error("❌ FATAL ERROR: FMP_API_KEY not found in .env file. Please check your configuration.");
+    process.exit(1); // Stop the server if the key is missing
+}
+// ---------------------------------
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -7,18 +19,12 @@ const path = require('path');
 const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
-const connectDB = require('./backend/config/db'); // MongoDB connection
-const userRoutes = require('./backend/routes/userRoutes'); // User routes
+const connectDB = require('./backend/config/db');
+const userRoutes = require('./backend/routes/userRoutes');
+const stockRoutes = require('./backend/routes/stockRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-
-// Debugging: Check if environment variables are loaded
-console.log("🔍 Checking MONGO_URI:", process.env.MONGO_URI);
-if (!process.env.MONGO_URI) {
-    console.error("❌ Error: MONGO_URI is not defined. Check your .env file.");
-    process.exit(1);
-}
 
 // Connect to MongoDB
 connectDB();
@@ -28,57 +34,58 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Session handling
+// Session & Passport Middleware
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'default_secret',
+    secret: process.env.SESSION_SECRET || 'a_secret_key',
     resave: false,
-    saveUninitialized: false,
-    cookie: { secure: false, httpOnly: true }
+    saveUninitialized: true
 }));
-
-// Flash messages
-app.use(flash());
-
-// Passport initialization
 app.use(passport.initialize());
 app.use(passport.session());
-require('./backend/config/passport')(passport); // Correct Passport initialization
+app.use(flash());
+
+// Passport Config
+require('./backend/config/passport')(passport);
 
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'backend/views'));
 
-// Serve static files (CSS, JS, images)
+// Serve static files
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.get('/', (req, res) => {
-    res.render('login', { messages: req.flash() });
+    res.render('login', { messages: { error: req.flash('error') } });
+});
+
+app.get('/register', (req, res) => {
+    res.render('register', { messages: { error: req.flash('error') }, user: req.user });
 });
 
 app.get('/dashboard', ensureAuthenticated, (req, res) => {
-    res.render('dashboard', { messages: req.flash(), user: req.user });
+    res.render('dashboard', { user: req.user });
 });
 
 app.get('/sip', ensureAuthenticated, (req, res) => {
-    res.render('sip', { messages: req.flash() });
+    res.render('sip', { user: req.user });
 });
 
 app.get('/emi', ensureAuthenticated, (req, res) => {
-    res.render('emi', { messages: req.flash() });
+    res.render('emi', { user: req.user });
 });
 
 app.get('/investments', ensureAuthenticated, (req, res) => {
-    res.render('investments', { messages: req.flash() });
+    res.render('investments', { user: req.user });
 });
 
 app.get('/stocks', ensureAuthenticated, (req, res) => {
-    res.render('stocks', { messages: req.flash() });
+    res.render('stocks', { user: req.user });
 });
 
-// Mount user routes on the root path so /register works as expected.
+// API Routes
 app.use('/api/users', userRoutes);
-
+app.use('/api/stocks', stockRoutes);
 
 // Start the server
 app.listen(PORT, () => {

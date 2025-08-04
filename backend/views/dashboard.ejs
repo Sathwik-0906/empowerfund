@@ -4,212 +4,138 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard - EmpowerFund</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/styles.css">
-  <style>
-    /* Reset and global styles */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #fff;
-      color: #333;
-      min-height: 100vh;
-      padding: 20px;
-    }
-
-    /* Header styling */
-    header {
-      text-align: center;
-      margin-bottom: 40px;
-      padding: 40px 20px;
-      background: linear-gradient(135deg, #6a11cb, #2575fc);
-      border-radius: 20px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-      animation: fadeIn 1s ease-in-out;
-    }
-
-    header h1 {
-      font-size: 2.5rem;
-      font-weight: 600;
-      margin-bottom: 10px;
-      color: #fff;
-    }
-
-    header p {
-      font-size: 1.2rem;
-      color: #e0e0e0;
-      animation: fadeIn 1.5s ease-in-out;
-    }
-
-    /* Navigation styling */
-    nav {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-bottom: 40px;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: #333;
-      padding: 12px 24px;
-      border-radius: 30px;
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-      font-weight: 600;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    nav a:hover {
-      background: rgba(255, 255, 255, 1);
-      transform: translateY(-5px);
-      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    nav a:active {
-      transform: translateY(0);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Section styling */
-    .section {
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 20px;
-      padding: 30px;
-      margin: 20px auto;
-      max-width: 800px;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .section:hover {
-      transform: scale(1.02);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-    }
-
-    .section p {
-      font-size: 1.1rem;
-      line-height: 1.6;
-      color: #555;
-    }
-
-    .section ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .section ul li {
-      background: rgba(255, 255, 255, 0.9);
-      margin: 10px 0;
-      padding: 15px;
-      border-radius: 10px;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-    }
-
-    .section ul li:hover {
-      background: rgba(255, 255, 255, 1);
-      transform: translateX(10px);
-    }
-
-    .section ul li strong {
-      color: #6a11cb;
-    }
-
-    /* Flash messages styling */
-    .alert {
-      padding: 15px;
-      border-radius: 10px;
-      margin: 20px auto;
-      max-width: 800px;
-      text-align: center;
-      background: rgba(255, 255, 255, 0.9);
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .alert-error {
-      background: rgba(255, 0, 0, 0.1);
-      color: #ff6b6b;
-    }
-
-    .alert-success {
-      background: rgba(0, 255, 0, 0.1);
-      color: #66ff66;
-    }
-
-    /* Footer styling */
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      padding: 20px;
-      background: rgba(255, 255, 255, 0.9);
-      border-radius: 20px;
-      border: 1px solid rgba(0, 0, 0, 0.1);
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    footer p {
-      color: #555;
-    }
-
-    /* Animations */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
 </head>
 <body>
-  <header>
-    <h1>Welcome to EmpowerFund, <%= user.name %>!</h1>
-    <p>Your one-stop solution for financial growth and wealth management.</p>
-  </header>
 
-  <nav>
-    <a href="/dashboard">Home</a>
-    <a href="/sip">SIP Calculator</a>
-    <a href="/emi">EMI Calculator</a>
-    <a href="/investments">Investment Options</a>
-    <a href="/stocks">Stock Market Data</a>
-    <a href="">Educational resources</a>
-    <a href="">financial planning</a>
-    <a href="">Tools for Budgeting</a>
-    <a href="/api/users/logout">Logout</a>
-  </nav>
-
-  <!-- Display flash messages (if any) -->
-  <% if (messages.error) { %>
-    <div class="alert alert-error">
-      <%= messages.error %>
+  <aside class="sidebar-final">
+    <div class="sidebar-header">
+      <h2 class="sidebar-title">EmpowerFund</h2>
     </div>
-  <% } %>
-  <% if (messages.success) { %>
-    <div class="alert alert-success">
-      <%= messages.success %>
+    <nav class="sidebar-nav">
+      <a href="/dashboard" class="active"><i class="fas fa-home"></i> Overview</a>
+      <a href="/investments"><i class="fas fa-chart-line"></i> Investments</a>
+      <a href="/stocks"><i class="fas fa-chart-bar"></i> Stock Market</a>
+      <a href="/sip"><i class="fas fa-calculator"></i> SIP Calculator</a>
+      <a href="/emi"><i class="fas fa-file-invoice-dollar"></i> EMI Calculator</a>
+      <a href="#"><i class="fas fa-book-open"></i> Resources</a>
+    </nav>
+    <div class="sidebar-user-profile">
+        <div class="user-info">
+            <span class="user-name"><%= user.name %></span>
+            <span class="user-email"><%= user.email %></span>
+        </div>
+      <a href="/api/users/logout" class="logout-link"><i class="fas fa-sign-out-alt"></i></a>
     </div>
-  <% } %>
+  </aside>
 
-  <div class="section">
-    <p>Explore the tools and resources available to you. Whether you're planning for retirement, saving for a big purchase, or investing in the stock market, EmpowerFund provides you with the tools and insights to make informed financial decisions.</p>
-    <p>Our platform offers:</p>
-    <ul>
-      <li><strong>SIP Calculator:</strong> Plan your Systematic Investment Plans with precision.</li>
-      <li><strong>EMI Calculator:</strong> Calculate your Equated Monthly Installments for loans.</li>
-      <li><strong>Investment Options:</strong> Discover a variety of investment opportunities tailored to your goals.</li>
-      <li><strong>Stock Market Data:</strong> Stay updated with real-time stock market trends and analysis.</li>
-    </ul>
-  </div>
+  <main class="main-content-final">
+    <div class="widgets-grid-final">
+      <div class="widget-card-final">
+        <h3>Quick Tools</h3>
+        <div class="quick-tools-container">
+          <a href="/sip" class="tool-card">
+            <i class="fas fa-calculator tool-icon"></i>
+            <span class="tool-title">SIP Calculator</span>
+            <p class="tool-description">Plan your systematic investments.</p>
+          </a>
+          <a href="/emi" class="tool-card">
+            <i class="fas fa-file-invoice-dollar tool-icon"></i>
+            <span class="tool-title">EMI Calculator</span>
+            <p class="tool-description">Calculate your loan installments.</p>
+          </a>
+        </div>
+      </div>
+      <div class="widget-card-final">
+        <h3>Financial Snapshot</h3>
+        <div class="chart-container" style="position: relative; height:100%; width:100%">
+            <canvas id="investmentChart"></canvas>
+        </div>
+      </div>
+      <div class="widget-card-final full-width-card">
+        <h3>Investment Overview</h3>
+        <ul class="investment-list-final">
+          <li>
+            <i class="fas fa-piggy-bank list-icon"></i>
+            <div class="list-item-details">
+              <strong>High-Yield Savings</strong>
+              <span>A safe place for your short-term goals.</span>
+            </div>
+            <strong class="list-item-amount" data-value="5230.00">$5,230.00</strong>
+          </li>
+          <li>
+            <i class="fas fa-seedling list-icon"></i>
+            <div class="list-item-details">
+              <strong>Eco-Friendly Mutual Fund</strong>
+              <span>Investing in a sustainable future.</span>
+            </div>
+            <strong class="list-item-amount" data-value="12850.00">$12,850.00</strong>
+          </li>
+           <li>
+            <i class="fas fa-building list-icon"></i>
+            <div class="list-item-details">
+              <strong>Real Estate Trust</strong>
+              <span>Long-term growth through property.</span>
+            </div>
+            <strong class="list-item-amount" data-value="25400.00">$25,400.00</strong>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </main>
 
-  <footer>
-    <p>&copy; 2025 EmpowerFund. All rights reserved.</p>
-  </footer>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const investmentLabels = [];
+      const investmentData = [];
+
+      // Extract data from the "Investment Overview" list
+      document.querySelectorAll('.investment-list-final .list-item-details strong').forEach(labelEl => {
+        investmentLabels.push(labelEl.textContent);
+      });
+      document.querySelectorAll('.investment-list-final .list-item-amount').forEach(amountEl => {
+        investmentData.push(parseFloat(amountEl.getAttribute('data-value')));
+      });
+
+      const ctx = document.getElementById('investmentChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: investmentLabels,
+          datasets: [{
+            label: 'Investment Value',
+            data: investmentData,
+            backgroundColor: [
+              '#0b486b', // Deep Blue
+              '#007991', // Teal
+              '#3aafa9'  // Lighter Teal
+            ],
+            borderColor: '#fff',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                font: {
+                    family: "'Poppins', sans-serif"
+                }
+              }
+            }
+          }
+        }
+      });
+    });
+  </script>
+
 </body>
 </html>

@@ -1,350 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stock Market Data - EmpowerFund</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/styles.css">
-  <style>
-    /* Basic Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f9;
-      color: #333;
-    }
-
-    header {
-      background: linear-gradient(135deg, #6a11cb, #2575fc);
-      color: #fff;
-      padding: 2rem;
-      text-align: center;
-    }
-
-    header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    header p {
-      font-size: 1.2rem;
-      opacity: 0.9;
-    }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      background: #fff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      padding: 1rem;
-    }
-
-    nav a {
-      color: #2575fc;
-      text-decoration: none;
-      margin: 0 1rem;
-      font-weight: 600;
-      transition: color 0.3s ease;
-    }
-
-    nav a:hover {
-      color: #6a11cb;
-    }
-
-    .alert {
-      padding: 1rem;
-      margin: 1rem auto;
-      max-width: 800px;
-      border-radius: 5px;
-      text-align: center;
-    }
-
-    .alert-error {
-      background: #ffebee;
-      color: #c62828;
-      border: 1px solid #c62828;
-    }
-
-    .section {
-      padding: 2rem;
-      background: #fff;
-      margin: 2rem auto;
-      max-width: 800px;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .section form {
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .section label {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #555;
-    }
-
-    .section input {
-      width: 100%;
-      padding: 0.75rem;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      font-size: 1rem;
-      transition: border-color 0.3s ease;
-    }
-
-    .section input:focus {
-      border-color: #2575fc;
-      outline: none;
-    }
-
-    .section button {
-      background: #2575fc;
-      color: #fff;
-      padding: 0.75rem 2rem;
-      border: none;
-      border-radius: 5px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .section button:hover {
-      background: #6a11cb;
-    }
-
-    .loading, .error {
-      display: none;
-      font-size: 1rem;
-      margin-top: 1rem;
-    }
-
-    .loading {
-      color: #2575fc;
-    }
-
-    .error {
-      color: #c62828;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1.5rem;
-    }
-
-    th, td {
-      padding: 0.75rem;
-      border: 1px solid #ddd;
-      text-align: center;
-    }
-
-    th {
-      background-color: #f4f4f4;
-      font-weight: 600;
-    }
-
-    tr:hover {
-      background-color: #f9f9f9;
-    }
-
-    footer {
-      text-align: center;
-      padding: 1rem;
-      background: #333;
-      color: #fff;
-      margin-top: 2rem;
-    }
-
-    footer p {
-      margin: 0;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      nav {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      nav a {
-        margin: 0.5rem 0;
-      }
-
-      header h1 {
-        font-size: 2rem;
-      }
-
-      header p {
-        font-size: 1rem;
-      }
-
-      .section {
-        padding: 1rem;
-      }
-
-      table {
-        font-size: 0.9rem;
-      }
-
-      th, td {
-        padding: 0.5rem;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Market - EmpowerFund</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/stocks.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <header>
-    <h1>Stock Market Data</h1>
-    <p>Fetch real-time stock market data.</p>
-  </header>
 
-  <nav>
-    <a href="/dashboard">Home</a>
-    <a href="/sip">SIP Calculator</a>
-    <a href="/emi">EMI Calculator</a>
-    <a href="/investments">Investment Options</a>
-    <a href="/stocks">Stock Market Data</a>
-    <a href="/api/users/logout">Logout</a>
-  </nav>
+    <aside class="sidebar-final">
+        <div class="sidebar-header"><h2 class="sidebar-title">EmpowerFund</h2></div>
+        <nav class="sidebar-nav">
+            <a href="/dashboard"><i class="fas fa-home"></i> Overview</a>
+            <a href="/investments"><i class="fas fa-chart-line"></i> Investments</a>
+            <a href="/stocks" class="active"><i class="fas fa-chart-bar"></i> Stock Market</a>
+            <a href="/sip"><i class="fas fa-calculator"></i> SIP Calculator</a>
+            <a href="/emi"><i class="fas fa-file-invoice-dollar"></i> EMI Calculator</a>
+            <a href="#"><i class="fas fa-book-open"></i> Resources</a>
+        </nav>
+        <div class="sidebar-user-profile">
+            <div class="user-info">
+                <span class="user-name"><%= user.name %></span>
+                <span class="user-email"><%= user.email %></span>
+            </div>
+            <a href="/api/users/logout" class="logout-link"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+    </aside>
 
-  <!-- Display flash messages (if any) -->
-  <% if (messages.error) { %>
-    <div class="alert alert-error">
-      <%= messages.error %>
-    </div>
-  <% } %>
+    <main class="main-content">
+        <div class="page-layout">
+            <div class="watchlist-panel">
+                <h2>My Watchlist</h2>
+                <div id="watchlistContainer">
+                    <p style="padding: 1rem 0; color: #6c757d;">Loading watchlist...</p>
+                </div>
+                <form id="addStockForm" class="add-stock-form">
+                    <input type="text" id="newStockSymbol" placeholder="e.g., GOOGL" required>
+                    <button type="submit">+</button>
+                </form>
+            </div>
 
-  <div class="section">
-    <form id="stockForm">
-      <label for="symbol">Stock Symbol:</label>
-      <input type="text" id="symbol" name="symbol" placeholder="e.g., AAPL" required>
-      <button type="submit">Fetch Data</button>
-      <p class="loading">Fetching data...</p>
-      <p class="error"></p>
-    </form>
-    <div id="stockData"></div>
-  </div>
+            <div class="details-panel">
+                <div id="detailsPlaceholder" class="details-placeholder">
+                    <p>Select a stock from your watchlist to view details.</p>
+                </div>
+                <div id="loader" class="loader"><p>Fetching data...</p></div>
+                <div id="stockDetails" class="stock-details">
+                    <div class="stock-header">
+                        <h3 id="stockName"></h3>
+                        <p id="stockSymbol"></p>
+                    </div>
+                    <div class="stock-tabs">
+                        <button class="tab-btn active" data-tab="overview">Overview</button>
+                        <button class="tab-btn" data-tab="chart">Chart</button>
+                    </div>
+                    <div id="overview" class="tab-content active">
+                        <div class="overview-grid">
+                            <div class="stat-card">
+                                <div class="stat-card-title"><i class="fas fa-dollar-sign"></i><span>Price</span></div>
+                                <strong id="price" class="stat-card-value"></strong>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-card-title"><i class="fas fa-chart-line"></i><span>Change</span></div>
+                                <strong id="change" class="stat-card-value"></strong>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-card-title"><i class="fas fa-building"></i><span>Company</span></div>
+                                <strong id="companyName" class="stat-card-value"></strong>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-card-title"><i class="fas fa-industry"></i><span>Industry</span></div>
+                                <strong id="industry" class="stat-card-value"></strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="chart" class="tab-content" style="height: 400px;">
+                        <canvas id="priceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+<script>
+    const watchlistContainer = document.getElementById('watchlistContainer');
+    const addStockForm = document.getElementById('addStockForm');
+    const newStockSymbolInput = document.getElementById('newStockSymbol');
+    const detailsPlaceholder = document.getElementById('detailsPlaceholder');
+    const loader = document.getElementById('loader');
+    const stockDetails = document.getElementById('stockDetails');
+    const tabs = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    let priceChart;
+    let userWatchlist = <%- JSON.stringify(user.watchlist || []) %>;
 
-  <footer>
-    <p>&copy; 2025 EmpowerFund. All rights reserved.</p>
-  </footer>
+    function renderWatchlist() {
+        if (userWatchlist.length === 0) {
+            watchlistContainer.innerHTML = '<p style="color: var(--text-secondary); text-align: center; padding: 1rem 0;">Your watchlist is empty.</p>';
+        } else {
+            watchlistContainer.innerHTML = userWatchlist.map(symbol => `
+                <div class="watchlist-item" data-symbol="${symbol}">
+                    <span>${symbol}</span>
+                    <button class="remove-btn" data-symbol="${symbol}">&times;</button>
+                </div>
+            `).join('');
+        }
+    }
 
-  <script>
-    document.getElementById('stockForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
+    async function fetchStockDetails(symbol) {
+        loader.style.display = 'block';
+        detailsPlaceholder.style.display = 'none';
+        stockDetails.style.display = 'none';
 
-      const symbol = document.getElementById('symbol').value.trim().toUpperCase();
-      const errorElement = document.querySelector('.error');
-      const loadingElement = document.querySelector('.loading');
-      const resultElement = document.getElementById('stockData');
+        document.querySelectorAll('.watchlist-item').forEach(item => {
+            item.classList.toggle('active', item.dataset.symbol === symbol);
+        });
+        
+        try {
+            const response = await fetch(`/api/stocks/data/${symbol}`);
+            const data = await response.json();
 
-      if (!symbol) {
-        errorElement.textContent = "Please enter a stock symbol.";
-        errorElement.style.display = "block";
-        return;
-      }
+            if (!response.ok) {
+                alert(data.error);
+                loader.style.display = 'none';
+                detailsPlaceholder.style.display = 'block';
+                return;
+            }
 
-      errorElement.style.display = "none";
-      loadingElement.style.display = "block";
-      resultElement.innerHTML = "";
+            const isPositive = data.profile.changes >= 0;
+            document.getElementById('stockName').textContent = data.profile.companyName || 'N/A';
+            document.getElementById('stockSymbol').textContent = data.profile.symbol || 'N/A';
+            document.getElementById('price').textContent = `$${(data.profile.price || 0).toFixed(2)}`;
+            const changeEl = document.getElementById('change');
+            changeEl.textContent = `${(data.profile.change || 0).toFixed(2)} (${(data.profile.changesPercentage || 0).toFixed(2)}%)`;
+            changeEl.style.color = isPositive ? '#28a745' : '#dc3545';
+            document.getElementById('companyName').textContent = data.profile.companyName;
+            document.getElementById('industry').textContent = data.profile.industry;
 
-      try {
-        // Simulate API call with a delay
-        setTimeout(() => {
-          const mockData = {
-            'Meta Data': {
-              '2. Symbol': symbol,
-              '3. Last Refreshed': '2023-10-05',
-            },
-            'Time Series (Daily)': {
-              '2023-10-05': {
-                '1. open': '170.50',
-                '2. high': '172.00',
-                '3. low': '169.80',
-                '4. close': '171.20',
-                '5. volume': '1200000',
-              },
-              '2023-10-04': {
-                '1. open': '169.00',
-                '2. high': '170.50',
-                '3. low': '168.50',
-                '4. close': '170.00',
-                '5. volume': '1100000',
-              },
-              '2023-10-03': {
-                '1. open': '168.00',
-                '2. high': '169.50',
-                '3. low': '167.50',
-                '4. close': '168.80',
-                '5. volume': '1000000',
-              },
-            },
-          };
+            if (data.history && data.history.length > 0) {
+                const labels = data.history.map(h => h.date).reverse();
+                const prices = data.history.map(h => h.close).reverse();
+                renderChart(labels, prices, isPositive);
+            }
 
-          loadingElement.style.display = "none";
+            loader.style.display = 'none';
+            stockDetails.style.display = 'block';
+            document.querySelector('.tab-btn[data-tab="overview"]').click();
 
-          if (!mockData || !mockData['Meta Data'] || !mockData['Time Series (Daily)']) {
-            errorElement.textContent = "No data available for this symbol.";
-            errorElement.style.display = "block";
-            return;
-          }
+        } catch (err) { 
+            console.error(err);
+            loader.style.display = 'none';
+            detailsPlaceholder.style.display = 'block';
+            detailsPlaceholder.textContent = 'An error occurred while fetching data.';
+        }
+    }
 
-          resultElement.innerHTML = formatStockData(mockData);
-        }, 1000); // Simulate 1 second delay for API call
-      } catch (error) {
-        loadingElement.style.display = "none";
-        errorElement.textContent = "Server error. Please try again later.";
-        errorElement.style.display = "block";
-      }
+    function renderChart(labels, data, isPositive) {
+        const ctx = document.getElementById('priceChart').getContext('2d');
+        if (priceChart) { priceChart.destroy(); }
+        priceChart = new Chart(ctx, {
+            type: 'line',
+            data: { labels: labels, datasets: [{
+                label: 'Closing Price', data: data,
+                borderColor: isPositive ? '#28a745' : '#dc3545',
+                backgroundColor: isPositive ? 'rgba(40, 167, 69, 0.1)' : 'rgba(220, 53, 69, 0.1)',
+                fill: true, tension: 0.1, pointRadius: 0
+            }]},
+            options: { responsive: true, maintainAspectRatio: false, scales: { x: { display: false } }, plugins: { legend: { display: false } } }
+        });
+    }
+
+    addStockForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const newSymbol = newStockSymbolInput.value.trim().toUpperCase();
+        if (newSymbol && !userWatchlist.includes(newSymbol)) {
+            const response = await fetch('/api/stocks/watchlist/add', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ symbol: newSymbol })
+            });
+            if (!response.ok) { alert((await response.json()).error); return; }
+            userWatchlist = await response.json();
+            renderWatchlist();
+            fetchStockDetails(newSymbol);
+        }
+        newStockSymbolInput.value = '';
     });
 
-    function formatStockData(data) {
-      const metaData = data['Meta Data'];
-      const timeSeries = data['Time Series (Daily)'];
-      let html = `<h3>${metaData['2. Symbol']} - ${metaData['3. Last Refreshed']}</h3>`;
+    watchlistContainer.addEventListener('click', async (e) => {
+        if (e.target.closest('.watchlist-item')) {
+            const symbol = e.target.closest('.watchlist-item').dataset.symbol;
+            if (e.target.classList.contains('remove-btn')) {
+                e.stopPropagation();
+                const response = await fetch('/api/stocks/watchlist/remove', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ symbol: symbol })
+                });
+                userWatchlist = await response.json();
+                renderWatchlist();
+                stockDetails.style.display = 'none';
+                detailsPlaceholder.style.display = 'block';
+            } else { fetchStockDetails(symbol); }
+        }
+    });
 
-      html += `<table>
-          <thead>
-              <tr>
-                  <th>Date</th>
-                  <th>Open</th>
-                  <th>High</th>
-                  <th>Low</th>
-                  <th>Close</th>
-                  <th>Volume</th>
-              </tr>
-          </thead>
-          <tbody>`;
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            tabContents.forEach(content => {
+                content.classList.toggle('active', content.id === tab.dataset.tab);
+            });
+        });
+    });
 
-      let count = 0;
-      for (const date in timeSeries) {
-        if (count >= 3) break; // Limit to last 3 days
-        const dailyData = timeSeries[date];
-        html += `<tr>
-            <td>${date}</td>
-            <td>${dailyData['1. open']}</td>
-            <td>${dailyData['2. high']}</td>
-            <td>${dailyData['3. low']}</td>
-            <td>${dailyData['4. close']}</td>
-            <td>${dailyData['5. volume']}</td>
-        </tr>`;
-        count++;
-      }
+    document.addEventListener('DOMContentLoaded', renderWatchlist);
+</script>
 
-      html += `</tbody></table>`;
-      return html;
-    }
-  </script>
 </body>
 </html>

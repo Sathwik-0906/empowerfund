@@ -4,265 +4,200 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EMI Calculator - EmpowerFund</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/styles.css">
-  <style>
-    /* Basic Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Poppins', sans-serif;
-      line-height: 1.6;
-      background-color: #f4f4f9;
-      color: #333;
-    }
-
-    header {
-      background: linear-gradient(135deg, #6a11cb, #2575fc);
-      color: #fff;
-      padding: 2rem;
-      text-align: center;
-    }
-
-    header h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-    }
-
-    header p {
-      font-size: 1.2rem;
-      opacity: 0.9;
-    }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      background: #fff;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      padding: 1rem;
-    }
-
-    nav a {
-      color: #2575fc;
-      text-decoration: none;
-      margin: 0 1rem;
-      font-weight: 600;
-      transition: color 0.3s ease;
-    }
-
-    nav a:hover {
-      color: #6a11cb;
-    }
-
-    .alert {
-      padding: 1rem;
-      margin: 1rem auto;
-      max-width: 800px;
-      border-radius: 5px;
-      text-align: center;
-    }
-
-    .alert-error {
-      background: #ffebee;
-      color: #c62828;
-      border: 1px solid #c62828;
-    }
-
-    .section {
-      padding: 2rem;
-      text-align: center;
-      background: #fff;
-      margin: 2rem auto;
-      max-width: 800px;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .section form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    .section label {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: #555;
-    }
-
-    .section input {
-      width: 100%;
-      max-width: 300px;
-      padding: 0.75rem;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      font-size: 1rem;
-      transition: border-color 0.3s ease;
-    }
-
-    .section input:focus {
-      border-color: #2575fc;
-      outline: none;
-    }
-
-    .section button {
-      background: #2575fc;
-      color: #fff;
-      padding: 0.75rem 2rem;
-      border: none;
-      border-radius: 5px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .section button:hover {
-      background: #6a11cb;
-    }
-
-    .loading, .error {
-      display: none;
-      font-size: 1rem;
-      margin-top: 1rem;
-    }
-
-    .loading {
-      color: #2575fc;
-    }
-
-    .error {
-      color: #c62828;
-    }
-
-    #emiValue {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #2575fc;
-      margin-top: 1rem;
-    }
-
-    footer {
-      text-align: center;
-      padding: 1rem;
-      background: #333;
-      color: #fff;
-      margin-top: 2rem;
-    }
-
-    footer p {
-      margin: 0;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      nav {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      nav a {
-        margin: 0.5rem 0;
-      }
-
-      header h1 {
-        font-size: 2rem;
-      }
-
-      header p {
-        font-size: 1rem;
-      }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/emi.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <header>
-    <h1>EMI Calculator</h1>
-    <p>Calculate your monthly loan installments.</p>
-  </header>
 
-  <nav>
-    <a href="/dashboard">Home</a>
-    <a href="/sip">SIP Calculator</a>
-    <a href="/emi">EMI Calculator</a>
-    <a href="/investments">Investment Options</a>
-    <a href="/stocks">Stock Market Data</a>
-    <a href="/api/users/logout">Logout</a>
-  </nav>
-
-  <!-- Display flash messages (if any) -->
-  <% if (messages.error) { %>
-    <div class="alert alert-error">
-      <%= messages.error %>
+  <aside class="sidebar-final">
+    <div class="sidebar-header">
+      <h2 class="sidebar-title">EmpowerFund</h2>
     </div>
-  <% } %>
+    <nav class="sidebar-nav">
+      <a href="/dashboard"><i class="fas fa-home"></i> Overview</a>
+      <a href="/investments"><i class="fas fa-chart-line"></i> Investments</a>
+      <a href="/stocks"><i class="fas fa-chart-bar"></i> Stock Market</a>
+      <a href="/sip"><i class="fas fa-calculator"></i> SIP Calculator</a>
+      <a href="/emi" class="active"><i class="fas fa-file-invoice-dollar"></i> EMI Calculator</a>
+      <a href="#"><i class="fas fa-book-open"></i> Resources</a>
+    </nav>
+    <div class="sidebar-user-profile">
+        <div class="user-info">
+            <span class="user-name"><%= user.name %></span>
+            <span class="user-email"><%= user.email %></span>
+        </div>
+      <a href="/api/users/logout" class="logout-link"><i class="fas fa-sign-out-alt"></i></a>
+    </div>
+  </aside>
 
-  <div class="section">
-    <form id="emiForm">
-      <label for="principal">Loan Amount (₹):</label>
-      <input type="number" id="principal" name="principal" required>
+  <main class="main-content">
+    <h1 class="page-title">EMI Calculator</h1>
 
-      <label for="annualInterestRate">Annual Interest Rate (%):</label>
-      <input type="number" id="annualInterestRate" name="annualInterestRate" required>
+    <div class="calculator-container">
+      <div class="form-card">
+        <h3>Loan Details</h3>
+        <form id="emiForm">
+          <div class="form-group">
+            <div class="input-group">
+              <label for="principalInput">Loan Amount (₹):</label>
+              <input type="number" id="principalInput" min="100000" max="10000000" step="10000" value="1000000">
+            </div>
+            <input type="range" id="principalSlider" min="100000" max="10000000" step="10000" value="1000000">
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <label for="rateInput">Interest Rate (%):</label>
+              <input type="number" id="rateInput" min="0" max="20" step="0.1" value="8.5">
+            </div>
+            <input type="range" id="rateSlider" min="0" max="20" step="0.1" value="8.5">
+          </div>
+          <div class="form-group">
+            <div class="input-group">
+              <label for="tenureInput">Loan Tenure (Months):</label>
+              <input type="number" id="tenureInput" min="6" max="360" step="6" value="240">
+            </div>
+            <input type="range" id="tenureSlider" min="6" max="360" step="6" value="240">
+          </div>
+        </form>
+      </div>
 
-      <label for="tenureInMonths">Loan Tenure (Months):</label>
-      <input type="number" id="tenureInMonths" name="tenureInMonths" required>
-
-      <button type="submit" class="btn">Calculate</button>
-      <p class="loading">Calculating...</p>
-      <p class="error"></p>
-    </form>
-    <p><strong>EMI:</strong> <span id="emiValue"></span></p>
-  </div>
-
-  <footer>
-    <p>&copy; 2025 EmpowerFund. All rights reserved.</p>
-  </footer>
-
+      <div class="results-card">
+        <div class="results-final">
+          <h3>Monthly EMI</h3>
+          <p class="emi-value" id="emiValue"></p>
+          <div class="results-breakdown">
+            <div class="breakdown-item">
+              <span>Principal Amount</span>
+              <strong id="principalAmount"></strong>
+            </div>
+            <div class="breakdown-item">
+              <span>Total Interest</span>
+              <strong id="totalInterest"></strong>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="resultsChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
   <script>
-    document.getElementById('emiForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
+    // --- Get all input elements ---
+    const principalSlider = document.getElementById('principalSlider');
+    const principalInput = document.getElementById('principalInput');
+    const rateSlider = document.getElementById('rateSlider');
+    const rateInput = document.getElementById('rateInput');
+    const tenureSlider = document.getElementById('tenureSlider');
+    const tenureInput = document.getElementById('tenureInput');
 
-      const principal = parseFloat(document.getElementById('principal').value);
-      const annualInterestRate = parseFloat(document.getElementById('annualInterestRate').value);
-      const tenureInMonths = parseFloat(document.getElementById('tenureInMonths').value);
-      const errorElement = document.querySelector('.error');
-      const loadingElement = document.querySelector('.loading');
-      const resultElement = document.getElementById('emiValue');
+    // --- Get all display elements ---
+    const emiValueEl = document.getElementById('emiValue');
+    const principalAmountEl = document.getElementById('principalAmount');
+    const totalInterestEl = document.getElementById('totalInterest');
 
-      if (principal <= 0 || annualInterestRate <= 0 || tenureInMonths <= 0) {
-        errorElement.textContent = "Please enter valid positive values.";
-        errorElement.style.display = "block";
-        return;
-      }
+    let resultsChart;
+    const chartCtx = document.getElementById('resultsChart').getContext('2d');
 
-      errorElement.style.display = "none";
-      loadingElement.style.display = "block";
+    const toCurrency = (value) => `₹${value.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0})}`;
 
-      try {
-        // Simulate API call with a delay
-        setTimeout(() => {
-          const monthlyInterestRate = annualInterestRate / 12 / 100;
-          const emi =
-            (principal *
-              monthlyInterestRate *
-              Math.pow(1 + monthlyInterestRate, tenureInMonths)) /
-            (Math.pow(1 + monthlyInterestRate, tenureInMonths) - 1);
+    function calculateAndDisplay() {
+        const principal = parseFloat(principalInput.value);
+        const annualInterestRate = parseFloat(rateInput.value);
+        const tenureInMonths = parseFloat(tenureInput.value);
 
-          loadingElement.style.display = "none";
-          resultElement.textContent = `₹${emi.toFixed(2)}`;
-        }, 1000); // Simulate 1 second delay for API call
-      } catch (error) {
-        loadingElement.style.display = "none";
-        errorElement.textContent = "Server error. Please try again later.";
-        errorElement.style.display = "block";
-      }
+        if (isNaN(principal) || isNaN(annualInterestRate) || isNaN(tenureInMonths) || tenureInMonths <= 0) return;
+
+        // Sync slider with input
+        principalSlider.value = principal;
+        rateSlider.value = annualInterestRate;
+        tenureSlider.value = tenureInMonths;
+        
+        let emi;
+        const monthlyRate = annualInterestRate / 12 / 100;
+
+        // *** THIS IS THE BUG FIX ***
+        if (monthlyRate === 0) {
+            emi = principal / tenureInMonths;
+        } else {
+            emi = (principal * monthlyRate * Math.pow(1 + monthlyRate, tenureInMonths)) / (Math.pow(1 + monthlyRate, tenureInMonths) - 1);
+        }
+        
+        const totalPayment = emi * tenureInMonths;
+        const totalInterest = totalPayment - principal;
+
+        emiValueEl.textContent = toCurrency(emi);
+        principalAmountEl.textContent = toCurrency(principal);
+        totalInterestEl.textContent = toCurrency(totalInterest);
+
+        updateChart(principal, totalInterest);
+    }
+
+    function updateChart(principal, interest) {
+        const data = {
+            labels: ['Principal Amount', 'Total Interest'],
+            datasets: [{
+                data: [principal, interest > 0 ? interest : 0], // ensure interest is not negative
+                backgroundColor: ['#007991', '#0b486b'],
+                borderColor: '#fff',
+                borderWidth: 2
+            }]
+        };
+
+        if(resultsChart) {
+            resultsChart.data = data;
+            resultsChart.update();
+        } else {
+            resultsChart = new Chart(chartCtx, {
+                type: 'pie',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                             labels: { font: { family: "'Poppins', sans-serif" } }
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    // --- Event Listeners to sync inputs and sliders ---
+    principalSlider.addEventListener('input', (e) => {
+        principalInput.value = e.target.value;
+        calculateAndDisplay();
     });
+    principalInput.addEventListener('input', (e) => {
+        principalSlider.value = e.target.value;
+        calculateAndDisplay();
+    });
+
+    rateSlider.addEventListener('input', (e) => {
+        rateInput.value = e.target.value;
+        calculateAndDisplay();
+    });
+    rateInput.addEventListener('input', (e) => {
+        rateSlider.value = e.target.value;
+        calculateAndDisplay();
+    });
+
+    tenureSlider.addEventListener('input', (e) => {
+        tenureInput.value = e.target.value;
+        calculateAndDisplay();
+    });
+    tenureInput.addEventListener('input', (e) => {
+        tenureSlider.value = e.target.value;
+        calculateAndDisplay();
+    });
+
+    document.addEventListener('DOMContentLoaded', calculateAndDisplay);
   </script>
+
 </body>
 </html>
