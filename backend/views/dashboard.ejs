@@ -6,8 +6,9 @@
   <title>Dashboard - EmpowerFund</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  
   <link rel="stylesheet" href="/css/dashboard.css">
+  
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 <body>
@@ -52,9 +53,8 @@
       </div>
       <div class="widget-card-final">
         <h3>Financial Snapshot</h3>
-        <div class="chart-placeholder">
-            <i class="fas fa-chart-pie chart-icon"></i>
-          <p>Your portfolio distribution chart will be displayed here.</p>
+        <div class="chart-container" style="position: relative; height:100%; width:100%">
+            <canvas id="investmentChart"></canvas>
         </div>
       </div>
       <div class="widget-card-final full-width-card">
@@ -66,7 +66,7 @@
               <strong>High-Yield Savings</strong>
               <span>A safe place for your short-term goals.</span>
             </div>
-            <strong class="list-item-amount">$5,230.00</strong>
+            <strong class="list-item-amount" data-value="5230.00">$5,230.00</strong>
           </li>
           <li>
             <i class="fas fa-seedling list-icon"></i>
@@ -74,7 +74,7 @@
               <strong>Eco-Friendly Mutual Fund</strong>
               <span>Investing in a sustainable future.</span>
             </div>
-            <strong class="list-item-amount">$12,850.00</strong>
+            <strong class="list-item-amount" data-value="12850.00">$12,850.00</strong>
           </li>
            <li>
             <i class="fas fa-building list-icon"></i>
@@ -82,12 +82,60 @@
               <strong>Real Estate Trust</strong>
               <span>Long-term growth through property.</span>
             </div>
-            <strong class="list-item-amount">$25,400.00</strong>
+            <strong class="list-item-amount" data-value="25400.00">$25,400.00</strong>
           </li>
         </ul>
       </div>
     </div>
   </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const investmentLabels = [];
+      const investmentData = [];
+
+      // Extract data from the "Investment Overview" list
+      document.querySelectorAll('.investment-list-final .list-item-details strong').forEach(labelEl => {
+        investmentLabels.push(labelEl.textContent);
+      });
+      document.querySelectorAll('.investment-list-final .list-item-amount').forEach(amountEl => {
+        investmentData.push(parseFloat(amountEl.getAttribute('data-value')));
+      });
+
+      const ctx = document.getElementById('investmentChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: investmentLabels,
+          datasets: [{
+            label: 'Investment Value',
+            data: investmentData,
+            backgroundColor: [
+              '#0b486b', // Deep Blue
+              '#007991', // Teal
+              '#3aafa9'  // Lighter Teal
+            ],
+            borderColor: '#fff',
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                font: {
+                    family: "'Poppins', sans-serif"
+                }
+              }
+            }
+          }
+        }
+      });
+    });
+  </script>
 
 </body>
 </html>
