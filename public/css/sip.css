@@ -1,0 +1,239 @@
+:root {
+    --heading-font: 'Poppins', sans-serif;
+    --body-font: 'Poppins', sans-serif;
+    --white: #fff;
+    --border-radius: 12px;
+    --primary: #0b486b;
+    --secondary: #007991;
+    --bg-color: #f0f2f5;
+    --text-primary: #333;
+    --text-secondary: #6c757d;
+    --success-color: #28a745;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    background-color: var(--bg-color);
+    font-family: var(--body-font);
+    color: var(--text-primary);
+    line-height: 1.6;
+}
+
+/* --- Sidebar Styles (Consistent with Dashboard) --- */
+.sidebar-final {
+    width: 260px;
+    background: linear-gradient(160deg, var(--primary) 0%, var(--secondary) 100%);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: fixed;
+    flex-shrink: 0;
+}
+.sidebar-header {
+    margin-bottom: 2.5rem;
+    padding: 0 0.5rem;
+}
+.sidebar-title {
+    color: var(--white);
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: 8px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+.sidebar-nav a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--white);
+}
+.sidebar-nav a.active {
+    background-color: var(--white);
+    color: var(--primary);
+    font-weight: 600;
+}
+.sidebar-nav i {
+    margin-right: 1rem;
+    width: 20px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+.sidebar-user-profile {
+    margin-top: auto;
+    padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.user-info { display: flex; flex-direction: column; }
+.user-name { color: var(--white); font-weight: 600; font-size: 0.9rem; line-height: 1.2; }
+.user-email { color: rgba(255, 255, 255, 0.6); font-size: 0.8rem; }
+.logout-link { color: rgba(255, 255, 255, 0.7); font-size: 1.2rem; text-decoration: none; }
+
+/* --- Main Content Styles --- */
+.main-content {
+    margin-left: 260px;
+    flex-grow: 1;
+    padding: 2.5rem;
+}
+.page-title {
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+    font-size: 2.2rem;
+    font-weight: 600;
+}
+
+/* --- Calculator Layout --- */
+.calculator-container {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.form-card, .results-card {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    padding: 2.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.form-card h3 {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #e0e6ed;
+    padding-bottom: 1rem;
+}
+
+.form-group {
+    margin-bottom: 2rem;
+}
+.form-group:last-of-type {
+    margin-bottom: 0;
+}
+
+.label-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.label-container label {
+    font-weight: 500;
+}
+
+.label-container .value-display {
+    font-weight: 600;
+    color: var(--secondary);
+    background-color: #e6f6ff;
+    padding: 0.25rem 0.75rem;
+    border-radius: 6px;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 8px;
+    background: #e0e6ed;
+    border-radius: 5px;
+    outline: none;
+    opacity: 0.7;
+    transition: opacity .2s;
+}
+
+input[type="range"]:hover {
+    opacity: 1;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--primary);
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: var(--primary);
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+/* --- Results Card --- */
+.results-card {
+    text-align: center;
+    padding: 3rem 2.5rem;
+}
+
+.results-final h3 {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.future-value {
+    font-size: 2.8rem;
+    font-weight: 600;
+    color: var(--success-color);
+    margin-bottom: 2rem;
+}
+
+.results-breakdown {
+    text-align: left;
+    display: flex;
+    justify-content: space-around;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+}
+
+.breakdown-item {
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: var(--bg-color);
+    flex: 1;
+}
+
+.breakdown-item span {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.breakdown-item strong {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.chart-container {
+    height: 200px; /* Give the chart a fixed height */
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .calculator-container {
+        grid-template-columns: 1fr;
+    }
+}

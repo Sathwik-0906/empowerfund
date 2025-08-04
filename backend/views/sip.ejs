@@ -3,114 +3,195 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - EmpowerFund</title>
+  <title>SIP Calculator - EmpowerFund</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/sip.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <header>
-    <h1>SIP Calculator</h1>
-    <p>Calculate the future value of your systematic investments.</p>
-  </header>
 
-  <nav>
-    <a href="/dashboard">Home</a>
-    <a href="/sip">SIP Calculator</a>
-    <a href="/emi">EMI Calculator</a>
-    <a href="/investments">Investment Options</a>
-    <a href="/stocks">Stock Market Data</a>
-    <a href="/api/users/logout">Logout</a>
-  </nav>
-
-  <% if (messages.error) { %>
-    <div class="alert alert-error">
-      <%= messages.error %>
+  <aside class="sidebar-final">
+    <div class="sidebar-header">
+      <h2 class="sidebar-title">EmpowerFund</h2>
     </div>
-  <% } %>
-
-  <div class="section">
-    <form id="sipForm">
-      <div class="form-group">
-        <label for="monthlyInvestment">Monthly Investment (₹):</label>
-        <input type="number" id="monthlyInvestment" name="monthlyInvestment" placeholder="e.g., 5000" required>
-      </div>
-      <div class="form-group">
-        <label for="annualInterestRate">Annual Interest Rate (%):</label>
-        <input type="number" id="annualInterestRate" name="annualInterestRate" placeholder="e.g., 12" required>
-      </div>
-      <div class="form-group">
-        <label for="years">Investment Period (Years):</label>
-        <input type="number" id="years" name="years" placeholder="e.g., 10" required>
-      </div>
-      
-      <button type="submit" class="btn">Calculate</button>
-      
-      <p class="loading" style="display: none;">Calculating...</p>
-      <p class="error" style="color: #c62828; display: none;"></p>
-    </form>
-    
-    <div id="result-container" style="margin-top: 1.5rem; text-align: center;">
-      <h3><strong>Future Value:</strong> <span id="futureValue" style="color: var(--primary-color);"></span></h3>
+    <nav class="sidebar-nav">
+      <a href="/dashboard"><i class="fas fa-home"></i> Overview</a>
+      <a href="/investments"><i class="fas fa-chart-line"></i> Investments</a>
+      <a href="/stocks"><i class="fas fa-chart-bar"></i> Stock Market</a>
+      <a href="/sip" class="active"><i class="fas fa-calculator"></i> SIP Calculator</a>
+      <a href="/emi"><i class="fas fa-file-invoice-dollar"></i> EMI Calculator</a>
+      <a href="#"><i class="fas fa-book-open"></i> Resources</a>
+    </nav>
+    <div class="sidebar-user-profile">
+        <div class="user-info">
+            <span class="user-name"><%= user.name %></span>
+            <span class="user-email"><%= user.email %></span>
+        </div>
+      <a href="/api/users/logout" class="logout-link"><i class="fas fa-sign-out-alt"></i></a>
     </div>
-  </div>
+  </aside>
 
-  <footer>
-    <p>&copy; 2025 EmpowerFund. All rights reserved.</p>
-  </footer>
+  <main class="main-content">
+    <h1 class="page-title">SIP Calculator</h1>
 
+    <div class="calculator-container">
+      <div class="form-card">
+        <h3>Investment Details</h3>
+        <form id="sipForm">
+          <div class="form-group">
+            <div class="label-container">
+              <label for="monthlyInvestment">Monthly Investment:</label>
+              <span class="value-display" id="monthlyInvestmentDisplay">₹5,000</span>
+            </div>
+            <input type="range" id="monthlyInvestment" min="500" max="100000" step="500" value="5000">
+          </div>
+          <div class="form-group">
+            <div class="label-container">
+              <label for="annualInterestRate">Expected Annual Return:</label>
+              <span class="value-display" id="annualInterestRateDisplay">12%</span>
+            </div>
+            <input type="range" id="annualInterestRate" min="1" max="30" step="0.5" value="12">
+          </div>
+          <div class="form-group">
+            <div class="label-container">
+              <label for="years">Investment Period:</label>
+              <span class="value-display" id="yearsDisplay">10 Years</span>
+            </div>
+            <input type="range" id="years" min="1" max="40" step="1" value="10">
+          </div>
+        </form>
+      </div>
+
+      <div class="results-card">
+        <div class="results-final">
+          <h3>Projected Future Value</h3>
+          <p class="future-value" id="futureValue"></p>
+          <div class="results-breakdown">
+            <div class="breakdown-item">
+              <span>Total Invested</span>
+              <strong id="totalInvested"></strong>
+            </div>
+            <div class="breakdown-item">
+              <span>Wealth Gained</span>
+              <strong id="wealthGained"></strong>
+            </div>
+          </div>
+          <div class="chart-container">
+            <canvas id="resultsChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
   <script>
-    document.getElementById('sipForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
+    // Get all input elements
+    const monthlyInvestmentSlider = document.getElementById('monthlyInvestment');
+    const annualInterestRateSlider = document.getElementById('annualInterestRate');
+    const yearsSlider = document.getElementById('years');
 
-      const monthlyInvestment = parseFloat(document.getElementById('monthlyInvestment').value);
-      const annualInterestRate = parseFloat(document.getElementById('annualInterestRate').value);
-      const years = parseFloat(document.getElementById('years').value);
-      
-      const errorElement = document.querySelector('.error');
-      const loadingElement = document.querySelector('.loading');
-      const resultElement = document.getElementById('futureValue');
+    // Get all display elements
+    const monthlyInvestmentDisplay = document.getElementById('monthlyInvestmentDisplay');
+    const annualInterestRateDisplay = document.getElementById('annualInterestRateDisplay');
+    const yearsDisplay = document.getElementById('yearsDisplay');
 
-      // Reset UI
-      errorElement.style.display = "none";
-      resultElement.textContent = "";
+    // UI Result Elements
+    const futureValueEl = document.getElementById('futureValue');
+    const totalInvestedEl = document.getElementById('totalInvested');
+    const wealthGainedEl = document.getElementById('wealthGained');
 
-      // Validate inputs
-      if (isNaN(monthlyInvestment)) {
-        errorElement.textContent = "Please enter a valid monthly investment.";
-        errorElement.style.display = "block";
-        return;
-      }
-      if (isNaN(annualInterestRate)) {
-        errorElement.textContent = "Please enter a valid annual interest rate.";
-        errorElement.style.display = "block";
-        return;
-      }
-      if (isNaN(years)) {
-        errorElement.textContent = "Please enter a valid investment period.";
-        errorElement.style.display = "block";
-        return;
-      }
-      if (monthlyInvestment <= 0 || annualInterestRate <= 0 || years <= 0) {
-        errorElement.textContent = "Values must be greater than zero.";
-        errorElement.style.display = "block";
-        return;
-      }
+    // Chart instance
+    let resultsChart;
+    const chartCtx = document.getElementById('resultsChart').getContext('2d');
 
-      // Show loading state
-      loadingElement.style.display = "block";
+    // Function to format currency
+    const toCurrency = (value) => `₹${value.toLocaleString('en-IN', {minimumFractionDigits: 0, maximumFractionDigits: 0})}`;
 
-      // Simulate API call with a delay
-      setTimeout(() => {
+    function calculateAndDisplay() {
+        const monthlyInvestment = parseFloat(monthlyInvestmentSlider.value);
+        const annualInterestRate = parseFloat(annualInterestRateSlider.value);
+        const years = parseFloat(yearsSlider.value);
+
+        // Update display values as sliders move
+        monthlyInvestmentDisplay.textContent = toCurrency(monthlyInvestment);
+        annualInterestRateDisplay.textContent = `${annualInterestRate}%`;
+        yearsDisplay.textContent = `${years} Years`;
+        
+        // Calculations
         const monthlyRate = annualInterestRate / 100 / 12;
         const months = years * 12;
-        const futureValue = monthlyInvestment * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate) * (1 + monthlyRate);
+        const futureValue = monthlyInvestment * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate);
+        const totalInvested = monthlyInvestment * months;
+        const wealthGained = futureValue - totalInvested;
 
-        // Hide loading and display result
-        loadingElement.style.display = "none";
-        resultElement.textContent = `₹${futureValue.toFixed(2)}`;
-      }, 1000); // Simulate 1 second delay
+        // Update result text
+        futureValueEl.textContent = toCurrency(futureValue);
+        totalInvestedEl.textContent = toCurrency(totalInvested);
+        wealthGainedEl.textContent = toCurrency(wealthGained);
+
+        // Update the chart
+        updateChart(totalInvested, wealthGained);
+    }
+
+    function updateChart(invested, gained) {
+        const data = {
+            labels: ['Total Invested', 'Wealth Gained'],
+            datasets: [{
+                label: 'Amount',
+                data: [invested, gained],
+                backgroundColor: [
+                    '#007991', // Teal
+                    '#28a745'  // Green
+                ],
+                borderColor: [
+                    '#007991',
+                    '#28a745'
+                ],
+                borderWidth: 1
+            }]
+        };
+
+        if(resultsChart) {
+            resultsChart.data = data;
+            resultsChart.update();
+        } else {
+            resultsChart = new Chart(chartCtx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: 'y', // Makes bars horizontal
+                    plugins: {
+                        legend: {
+                            display: false // Hide the legend
+                        }
+                    },
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value, index, values) {
+                                    return `₹${value / 100000}L` // Display in Lakhs
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    // Add event listeners to all sliders
+    [monthlyInvestmentSlider, annualInterestRateSlider, yearsSlider].forEach(slider => {
+        slider.addEventListener('input', calculateAndDisplay);
     });
+
+    // Initial calculation on page load
+    document.addEventListener('DOMContentLoaded', calculateAndDisplay);
+
   </script>
+
 </body>
 </html>

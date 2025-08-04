@@ -3,95 +3,101 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - EmpowerFund</title>
+  <title>Investment Options - EmpowerFund</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="/css/main.css">
+  
+  <link rel="stylesheet" href="/css/investments.css">
+
 </head>
 <body>
-  <header>
-    <h1>Investment Options</h1>
-    <p>Explore curated investment options tailored for you.</p>
-  </header>
 
-  <nav>
-    <a href="/dashboard">Home</a>
-    <a href="/sip">SIP Calculator</a>
-    <a href="/emi">EMI Calculator</a>
-    <a href="/investments">Investment Options</a>
-    <a href="/stocks">Stock Market Data</a>
-    <a href="/api/users/logout">Logout</a>
-  </nav>
-
-  <!-- Display flash messages (if any) -->
-  <% if (messages.error) { %>
-    <div class="alert alert-error">
-      <%= messages.error %>
+  <aside class="sidebar-final">
+    <div class="sidebar-header">
+      <h2 class="sidebar-title">EmpowerFund</h2>
     </div>
-  <% } %>
+    <nav class="sidebar-nav">
+      <a href="/dashboard"><i class="fas fa-home"></i> Overview</a>
+      <a href="/investments" class="active"><i class="fas fa-chart-line"></i> Investments</a>
+      <a href="/stocks"><i class="fas fa-chart-bar"></i> Stock Market</a>
+      <a href="/sip"><i class="fas fa-calculator"></i> SIP Calculator</a>
+      <a href="/emi"><i class="fas fa-file-invoice-dollar"></i> EMI Calculator</a>
+      <a href="#"><i class="fas fa-book-open"></i> Resources</a>
+    </nav>
+    <div class="sidebar-user-profile">
+        <div class="user-info">
+            <span class="user-name"><%= user.name %></span>
+            <span class="user-email"><%= user.email %></span>
+        </div>
+      <a href="/api/users/logout" class="logout-link"><i class="fas fa-sign-out-alt"></i></a>
+    </div>
+  </aside>
 
-  <div class="section">
-    <ul class="investment-list" id="investmentList">
-      <!-- Investment items will be dynamically inserted here -->
-    </ul>
-  </div>
+  <main class="main-content">
+    <h1 class="page-title">Investment Options</h1>
 
-  <footer>
-    <p>&copy; 2025 EmpowerFund. All rights reserved.</p>
-  </footer>
+    <div class="investments-grid" id="investmentsGrid">
+      </div>
+  </main>
 
   <script>
-    // Sample investment data (can be replaced with data from an API)
     const investments = [
       {
         name: "Fixed Deposits",
         description: "A low-risk investment option with guaranteed returns over a fixed period.",
         risk: "Low",
         returns: "5-7% annually",
+        icon: "fa-solid fa-piggy-bank"
       },
       {
         name: "Mutual Funds",
-        description: "Invest in a diversified portfolio managed by professionals.",
+        description: "Invest in a diversified portfolio of stocks and bonds managed by professionals.",
         risk: "Medium",
         returns: "8-12% annually",
+        icon: "fa-solid fa-layer-group"
       },
       {
         name: "Stocks",
-        description: "High-risk, high-reward investment in the stock market.",
+        description: "High-risk, high-reward investment representing ownership in a public company.",
         risk: "High",
         returns: "10-20% annually",
+        icon: "fa-solid fa-arrow-trend-up"
       },
       {
         name: "Real Estate",
-        description: "Invest in property for long-term capital appreciation.",
+        description: "Invest in physical property for long-term capital appreciation and rental income.",
         risk: "Medium",
         returns: "6-10% annually",
+        icon: "fa-solid fa-building"
       },
       {
         name: "Gold",
-        description: "A safe-haven asset that provides stability during market volatility.",
+        description: "A safe-haven asset that provides stability and acts as a hedge against market volatility.",
         risk: "Low",
         returns: "4-6% annually",
+        icon: "fa-solid fa-coins"
       },
     ];
 
-    // Function to render investment items
     function renderInvestments() {
-      const investmentList = document.getElementById("investmentList");
-      investmentList.innerHTML = investments
-        .map(
-          (investment) => `
-            <li class="investment-item">
-              <strong>${investment.name}</strong><br>
-              ${investment.description}<br>
-              <em>Risk: ${investment.risk}, Returns: ${investment.returns}</em>
-            </li>
-          `
-        )
-        .join("");
+      const investmentsGrid = document.getElementById("investmentsGrid");
+      investmentsGrid.innerHTML = investments.map(investment => `
+        <div class="investment-card">
+          <div class="card-header">
+            <div class="card-icon">
+              <i class="${investment.icon}"></i>
+            </div>
+            <h3 class="card-title">${investment.name}</h3>
+          </div>
+          <p class="card-description">${investment.description}</p>
+          <div class="card-footer">
+            <span class="badge risk-${investment.risk}">Risk: ${investment.risk}</span>
+            <span class="badge returns">Returns: ${investment.returns}</span>
+          </div>
+        </div>
+      `).join("");
     }
 
-    // Render investments on page load
     renderInvestments();
   </script>
 </body>
