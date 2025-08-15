@@ -3,42 +3,47 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - EmpowerFund</title>
+  <title>Register - EmpowerFund</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="/css/main.css">
 </head>
+<body class="login-page-split">
 
-<body>
-    <header>
-        <h1>Register</h1>
-    </header>
+  <div class="login-container">
+    <div class="login-welcome-panel">
+      <h2>Create Your Account</h2>
+      <p>Join EmpowerFund today to start managing your finances and planning for a secure future.</p>
+    </div>
 
-    <!-- Flash Messages -->
-    <% if (messages && messages.success) { %>
-        <div class="alert alert-success"><%= messages.success %></div>
-    <% } %>
-    <% if (messages && messages.error) { %>
+    <div class="login-form-panel">
+      <h3>User Registration</h3>
+      
+      <% if (messages.error && messages.error.length > 0) { %>
         <div class="alert alert-error"><%= messages.error %></div>
-    <% } %>
+      <% } %>
 
-    <form action="/register" method="POST">
-        <label for="name">Name:</label>
-        <input type="text" name="name" required>
+      <form action="/api/users/register" method="POST">
+        <div class="form-group icon-group">
+          <i class="fa-solid fa-user form-icon"></i>
+          <input type="text" id="name" name="name" placeholder="Full Name" required>
+        </div>
+        <div class="form-group icon-group">
+          <i class="fa-solid fa-envelope form-icon"></i>
+          <input type="email" id="email" name="email" placeholder="Email" required>
+        </div>
+        <div class="form-group icon-group">
+          <i class="fa-solid fa-lock form-icon"></i>
+          <input type="password" id="password" name="password" placeholder="Password" required>
+        </div>
+        
+        <button type="submit" class="btn btn-login">REGISTER</button>
+      </form>
+      <div style="text-align: center; margin-top: 1.5rem;">
+        <p style="margin: 0; color: #6c757d;">Already have an account? <a href="/" style="color: #007991; text-decoration: none; font-weight: 600;">Login</a></p>
+      </div>
+    </div>
+  </div>
 
-        <label for="email">Email:</label>
-        <input type="email" name="email" required>
-
-        <label for="password">Password:</label>
-        <input type="password" name="password" required>
-
-        <button type="submit">Register</button>
-    </form>
-
-    <p>Already registered? <a href="/">Login here</a></p>
-
-    <footer>
-        <p>&copy; 2025 EmpowerFund. All rights reserved.</p>
-    </footer>
 </body>
 </html>
