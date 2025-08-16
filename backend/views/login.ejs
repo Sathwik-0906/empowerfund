@@ -19,12 +19,8 @@
     <div class="login-form-panel">
       <h3>User Login</h3>
       
-      <!-- <div style="text-align: center; margin-bottom: 1.5rem; background-color: #f0f2f5; padding: 0.75rem; border-radius: 8px; font-size: 0.9rem; color: #6c757d;">
-        <p style="margin: 0;">Use <strong style="color: #333;">guest@example.com</strong> and password <strong style="color: #333;">guest123</strong> to log in.</p>
-      </div> -->
-      
       <% if (messages.error && messages.error.length > 0) { %>
-        <div class="alert alert-error"><%= messages.error %></div>
+       <div class="alert alert-error"><%= messages.error %></div>
       <% } %>
 
       <form action="/api/users/login" method="POST">
@@ -42,7 +38,7 @@
             <input type="checkbox" id="remember">
             <label for="remember">Remember me</label>
           </div>
-          <a href="#" class="forgot-password">Forgot password?</a>
+          <a href="/forgot-password" class="forgot-password">Forgot password?</a>
         </div>
 
         <button type="submit" class="btn btn-login">LOGIN</button>

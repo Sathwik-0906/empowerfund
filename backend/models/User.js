@@ -5,13 +5,11 @@ const UserSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    // CORRECTED 'GOOGLE' to 'GOOGL'
-    watchlist: { type: [String], default: ['AAPL', 'GOOGL', 'MSFT'] }
+    watchlist: { type: [String], default: ['AAPL', 'GOOGL', 'MSFT'] },
+    resetPasswordToken: { type: String },
+    resetPasswordExpires: { type: Date }
 });
 
-
-// --- THIS IS THE CHANGE ---
-// The pre-save hook for hashing is now disabled (commented out).
 /*
 UserSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
@@ -20,10 +18,7 @@ UserSchema.pre('save', async function (next) {
     next();
 });
 */
-// -------------------------
 
-
-// Compare password method (this remains the same)
 UserSchema.methods.comparePassword = async function (enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };

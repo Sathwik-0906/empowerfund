@@ -63,6 +63,16 @@ app.get('/register', (req, res) => {
     res.render('register', { messages: { error: req.flash('error') }, user: req.user });
 });
 
+// New routes for password reset
+app.get('/forgot-password', (req, res) => {
+    res.render('forgot-password', { messages: { error: req.flash('error'), success: req.flash('success') } });
+});
+
+app.get('/reset-password/:token', (req, res) => {
+    res.render('reset-password', { token: req.params.token, messages: { error: req.flash('error') } });
+});
+
+
 app.get('/dashboard', ensureAuthenticated, (req, res) => {
     res.render('dashboard', { user: req.user });
 });
